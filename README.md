@@ -15,10 +15,21 @@ enum EsRpcStdId
   FWID_MODERN_GET    = 22,  "esBA_Call|Query firmware identification block of modern devices which support dual ID feature";
 }
 ```
-
+```
 ## Специфичные для устройства
 
 
+enum EsOperationMode
+{
+  
+}
+
+enum EsRpcEkologgerId
+{
+  SET_OPERATION_MODE = 2056 "VOID_UINT8|Set device operation mode see EsRpcDeviceOperationMode"
+  GET_OPERATION_MODE = 2057 "UINT8_VOID"|Get device operation mode see EsRpcDeviceOperationMode
+}
+```
 ## Особенности работы по EKONNECT, USB(UART) интерфейсу
 Перед первым подключением рекомендуется пинговать устройство минимум 2 раза, так как первый первый пакет может быть потерян
 
