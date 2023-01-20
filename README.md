@@ -79,7 +79,7 @@ enum EsRpcEkologgerId
 ## Сервисы
 ### Device ID and state characteristics
 ### Device data access and control characteristics
-### Ready-to-use live data
+### Ready-to-use live data 0500XXXX
 | Characteristic name          | ID        | Type    | Size in bytes | IO specifiers | Authentication needed | Is optional | Description |
 | -----------------------------| --------- | --------| ------------- | ------------- | --------------------- |-------------|-------------| 
 | Temperature C, probe 1       | 05000400  | float32 |
