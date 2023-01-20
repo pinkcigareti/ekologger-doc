@@ -80,7 +80,7 @@ enum EsRpcEkologgerId
 ### Device ID and state characteristics
 ### Device data access and control characteristics
 ### Ready-to-use live data
-| Characteristic name  | ID | Type| Size in bytes | IO specifiers | Authentication needed | Is optional | Description |
-| ------------- | ------------- | ------------- |
-| Temperature, C  | 05000400  | float32 |
-| Relative humidity, %  | 05000500  | float32 |
+| Characteristic name  | ID        | Type    | Size in bytes | IO specifiers | Authentication needed | Is optional | Description |
+| -------------------- | --------- | --------| ------------- | ------------- | --------------------- |-------------|-------------| 
+| Temperature, C       | 05000400  | float32 |
+| Relative humidity, % | 05000500  | float32 |
