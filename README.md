@@ -75,4 +75,9 @@ enum EsRpcEkologgerId
 ```
 ## Особенности работы по EKONNECT, USB(UART) интерфейсу
 Перед первым подключением рекомендуется пинговать устройство минимум 2 раза, так как первый первый пакет может быть потерян
+# Bluetooth Low Energy (BLE)
+## Сервисы
+### Device ID and state characteristics
+### Device data access and control characteristics
+### Ready-to-use live data
 
