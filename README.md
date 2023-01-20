@@ -15,9 +15,8 @@ enum EsRpcStdId
   FWID_MODERN_GET    = 22,  "esBA_Call|Query firmware identification block of modern devices which support dual ID feature";
 }
 ```
-```
 ## Специфичные для устройства
-
+```
 
 enum EsOperationMode
 {
