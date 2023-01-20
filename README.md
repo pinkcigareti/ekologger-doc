@@ -21,13 +21,15 @@ enum EsRpcStdId
 
 enum EsOperationMode
 {
-  
+  MeteoIdle = 1, 
+  MeteoLimited = 2,
+  MeteoLiveUnlimited = 3
 }
 
 enum EsRpcEkologgerId
 {
   SET_OPERATION_MODE = 2056 "VOID_UINT8|Set device operation mode see EsRpcDeviceOperationMode"
-  GET_OPERATION_MODE = 2057 "UINT8_VOID"|Get device operation mode see EsRpcDeviceOperationMode
+  GET_OPERATION_MODE = 2057 "UINT8_VOID|Get device operation mode see EsRpcDeviceOperationMode"
 }
 ```
 ## Особенности работы по EKONNECT, USB(UART) интерфейсу
