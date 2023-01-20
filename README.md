@@ -62,14 +62,6 @@ struct LiveData
 };
 
 
-struct EkologgerLiveData
-{
-  DT ts; "Current TimeSpan"
-  
-  BitState MeasState;
-}
-
-
 enum EsRpcEkologgerId
 {
   SET_OPERATION_MODE = 2056, "VOID_UINT8_Call|Set device operation mode see EsRpcDeviceOperationMode"
