@@ -46,12 +46,12 @@
 
 ### Device persistent data access and control (UUID 0x0300)
 
-| Characteristic name  | UUID      | Type            | Size in bytes | IO specifiers | Authentication needed | Description                       |
-| -------------------  | --------- | ----------------| ------------- | ------------- | --------------------- |-----------------------------------|
-| Persistent node count| 0x0301    | uint32          |4              |Read/Notify    |No                     |Read node count from all sd files  |
-| Current node read    | 0x0303    | uint64/bytearray|8/170          |Write/Notify   |No                     |Sends all data from selected file  |
-| Current node delete  | 0x0304    | uint64          |8              |Write          |No                     |Delete selected file               |
-| Nodes Date           | 0x0306    | uint8           |1              |Write/Notify   |No                     |Send info               |
+| Characteristic name  | UUID      | Type  (In/out)  | Size in bytes | IO specifiers | Authentication needed | Description                          |
+| -------------------  | --------- | ----------------| ------------- | ------------- | --------------------- |--------------------------------------|
+| Persistent node count| 0x0301    | uint32          |4              |Read/Notify    |No                     |Read node count from all sd files     |
+| Current node read    | 0x0303    | uint64/bytearray|8/170          |Write/Notify   |No                     |Sends all data from selected file     |
+| Current node delete  | 0x0304    | uint64          |8              |Write          |No                     |Delete selected file                  |
+| Nodes Date           | 0x0306    | uint8/uint64    |1              |Write/Notify   |No                     |Sends node_date_t struct for each file|
 
 
 
@@ -70,7 +70,7 @@
   uint32_t node_count;
  }node_date_t;
  ```
-  Subscribe to Nodes date char, and then write 1 to it. Slave will send nodes_date_t struct for each file, which should be interpreted as "first 8 bytes - timestamp of file in ms, 4 bytes - node_count in file", at the end slave sends empty struct (all 12 bytes are zero), to indicate that there are no more files on sdcard;
+  Subscribe to Nodes date char, and then write 1 to it. Slave will send nodes_date_t struct for each file, which should be interpreted as "first 8 bytes - timestamp of file in ms, 4 bytes - node_count in file". At the end slave sends empty struct (all 12 bytes are zero), to indicate that there are no more files on sdcard;
   
 ### Ready-to-use live data characteristics (UUID 0x0500)
 
