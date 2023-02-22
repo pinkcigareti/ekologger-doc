@@ -36,15 +36,23 @@
 Перед первым подключением рекомендуется пинговать устройство минимум 2 раза, так как первый первый пакет может быть потерян
 # Bluetooth Low Energy (BLE)
 ## Сервисы
-### Device ID and state characteristics
-### Device data access and control characteristics (UUID 0x0200)
+### Device ID and state service (UUID 0x0100)
+
+| Characteristic name          | UUID      | Type            | Size in bytes | IO specifiers | Authentication needed | Description                       |
+| -----------------------------| --------- | ----------------| ------------- | ------------- | --------------------- |-----------------------------------|
+| Firmware Id                  | 0x0101    | bytearray       |               |Read           |No                     |Read firmware ID information block |
+| Software Id                  | 0x0102    | bytearray       |               |Read           |No                     |Read software ID information block |
+| Power state                  | 0x0103    | bytearray       |7              |Read/Notify    |No                     |Read device power state block      |
+
+
+### Device data access and control service (UUID 0x0200)
 
 | Characteristic name          | UUID      | Type            | Size in bytes | IO specifiers | Authentication needed | Description                       |
 | -----------------------------| --------- | ----------------| ------------- | ------------- | --------------------- |-----------------------------------|
 | Live Data                    | 0x0202    | MeteoLiveData_t |170            |Read           |No                     |Read live data struct from 2 probes|
 | Live Data save               | 0x0203    | uint8           | 1             |Write          |No                     |On write saves live data to sd card|
 
-### Device persistent data access and control (UUID 0x0300)
+### Device persistent data access service (UUID 0x0300)
 
 | Characteristic name  | UUID      | Type  (In/out)  | Size in bytes | IO specifiers | Authentication needed | Description                          |
 | -------------------  | --------- | ----------------| ------------- | ------------- | --------------------- |--------------------------------------|
@@ -72,7 +80,7 @@
  ```
   Subscribe to Nodes date char, and then write 1 to it. Slave will send nodes_date_t struct for each file, which should be interpreted as "first 8 bytes - timestamp of file in ms, 4 bytes - node_count in file". At the end slave sends empty struct (all 12 bytes are zero), to indicate that there are no more files on sdcard;
   
-### Ready-to-use live data characteristics (UUID 0x0500)
+### Ready-to-use live data service (UUID 0x0500)
 
 On char notification, sends data immediately, then updates it in 1 second interval
 | Characteristic name          | UUID        | Type    | Size in bytes | IO specifiers | Authentication needed | Description                        |
