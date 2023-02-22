@@ -3,75 +3,34 @@
 # Список поддерживаемых Rpc команд
 ## Стандартные 
 ```
-enum EsRpcStdId
-{
-  CAPS_GET           = 0,   "esBA_Call|Return all procedure ids, supported by the hardware";
-  FWID_GET           = 1,   "esBA_Call|Query firmware identification block";
-  DATETIME_SET       = 6,   "esBL_Call_esDT|Set device date and time";
-  DATETIME_GET       = 7,   "esDT_Call|Get device date and time";
-  SHUTDOWN           = 9,   "VOID_Call|Schedule device power down";
-  POWER_STATUS_GET   = 11,  "esBA_Call|Return device power status";
-  SW_INFO_GET        = 21,  "esBA_Call|Query software identification block";
-  FWID_MODERN_GET    = 22,  "esBA_Call|Query firmware identification block of modern devices which support dual ID feature";
-}
+  typedef enum
+	{
+			RPC_GET_DEVICE_IDS			=	0,
+			RPC_GET_DEVICE_ID			=	1,
+			RPC_SET_DEVICE_DATE_TIME = 6,
+			RPC_GET_DEVICE_DATE_TIME = 7,
+			RPC_FACTORY_RESET = 8,
+			RPC_POWER_OFF				=	9,
+			RPC_GET_POWER_STATUS = 11,
+			RPC_FIND_ME = 20,
+			RPC_GET_SOFTWARE_INFO		=	21,
+			RPC_GET_MODERN_FIRMWARE_ID = 22
+	} StandartId_t;
 ```
 ## Специфичные для устройства
 ```
 
-enum EsOperationMode
-{
-  MeteoIdle = 1, 
-  MeteoLimited = 2,
-  MeteoLiveUnlimited = 3
-}
-
-
-enum DataFlag
-{
-  
-}
-
-
-enum DataTrends
-{
-  
-}
-
-struct LiveData
-{
-  esDT  m_ts;              //< Timestamp, reserved in ET1
-  esU32 m_flags;          //< Data state flags, @see #DataFlag
-  esU8  m_heaterTimer;    //< Air U heater timer. 255 - not used, 0..N - seconds until completion
-  esU32 m_taAvgTimer;      //< Air Temperature averageing time, s (reserved)
-  esU32 m_uAvgTimer;      //< Air U averageing timer, s (reserved)
-  esF   m_ta;              //< Air T
-  esF    m_rh;              //< Humidity
-  esF    m_td;              //< Dew point
-  esF   m_tw;              //< Wetbulb T
-  esF   m_u;              //< Air U
-  esF    m_tg;              //< Black Globe T
-  esF    m_wbgt;            //< Wetbulb Globe Temperature w/o Solar index
-  esF   m_wbgts;          //< Wetbulb Globe Temperature with Solar radiation index
-  esF    m_tr;              //< Radiation  T for U < 1m/s
-  esF    m_w;              //< Heat radiation density
-  esF    m_p;              //< Pressure
-  esF    m_tO;              //< Resulting temperature
-  esF    m_reserved1;
-  esF    m_reserved2;
-  DataTrends m_trends;
-};
-
-
-enum EsRpcEkologgerId
-{
-  SET_OPERATION_MODE = 2056, "VOID_UINT8_Call|Set device operation mode see EsRpcDeviceOperationMode"
-  GET_OPERATION_MODE = 2057, "UINT8_VOID_Call|Get device operation mode see EsRpcDeviceOperationMode"
-  GET_LIVE_DATA = 2058, "esBa_VOID_Call|Return LiveData struct for current active probe"
-  SET_ALLOW_CHARGING = 2067,
-  SET_ACTIVE_PROBE = 2068, "VOID_UINT8|Sets active probe for communication"
-  GET_ACTIVE_PROBE = 2069 "UINT8_VOID|Return current active probe"
-  
-}
+    typedef enum
+		{
+      RPC_SET_OPERATION_MODE		=	2056,
+			RPC_GET_OPERATION_MODE		=	2057,
+			RPC_GET_LIVE_DATA			=	2058,
+			RPC_SET_ALLOW_CHARGING		=	2067,
+			RPC_SET_ACTIVE_PROBE = 2068,
+			RPC_GET_ACTIVE_PROBE = 2069,
+			RPC_GET_FLAGS				=	3001,
+			RPC_GET_CACHED_NON_CALIBRATED_DATA = 3009
+		}CustomId_t;
 ```
 ## Особенности работы по EKONNECT, USB(UART) интерфейсу
 Перед первым подключением рекомендуется пинговать устройство минимум 2 раза, так как первый первый пакет может быть потерян
@@ -87,20 +46,23 @@ enum EsRpcEkologgerId
 
 ### Device persistent data access and control (UUID 0x0300)
 
-| Characteristic name| UUID      | Type            | Size in bytes | IO specifiers | Authentication needed | Description                       |
-| -------------------| --------- | ----------------| ------------- | ------------- | --------------------- |-----------------------------------|
-| Live Data          | 0x0301    | MeteoLiveData_t |170            |Read           |No                     |Read live data struct from 2 probes|
-| Current node read  | 0x0303    | uint64/bytearray|8/170          |Write/Notify   |No                     |Sends all data from selected file  |
-| Current node delete| 0x0303    | uint64          |8              |Write          |No                     |Deletes selected file              |
+| Characteristic name  | UUID      | Type            | Size in bytes | IO specifiers | Authentication needed | Description                       |
+| -------------------  | --------- | ----------------| ------------- | ------------- | --------------------- |-----------------------------------|
+| Persistent node count| 0x0301    | uint32          |4              |Read/Notify    |No                     |Read node count from all sd files  |
+| Current node read    | 0x0303    | uint64/bytearray|8/170          |Write/Notify   |No                     |Sends all data from selected file  |
+| Current node delete  | 0x0304    | uint64          |8              |Write          |No                     |Delete selected file               |
+| Nodes Date           | 0x0306    | uint8           |1              |Write/Notify   |No                     |Send info               |
 
-# Current node read
+
+
+#### Current node read
   To read data from sdcard, server should subscribe to char and write needed file timestamp in ms(year, month, day). Then slave will send all data from selected file. 
   Struct will look like this:
   ```
-  MeteoLiveData[2]; // struct from 2 probes
+  MeteoLiveData_t sdcard_data[2]; // struct from 2 probes
   ```
-  This struct will be send in one MTU packet.
-# How to get list of current files on sdcard
+  Each sdcard_data will be send in one MTU packet.
+#### How to get list of current files on sdcard
  ```
  typedef struct
  {
