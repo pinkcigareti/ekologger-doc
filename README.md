@@ -85,6 +85,31 @@ enum EsRpcEkologgerId
 | Live Data                    | 0x0202    | MeteoLiveData_t |170            |Read           |No                     |Read live data struct from 2 probes|
 | Live Data save               | 0x0203    | uint8           | 1             |Write          |No                     |On write saves live data to sd card|
 
+### Device persistent data access and control (UUID 0x0300)
+
+| Characteristic name| UUID      | Type            | Size in bytes | IO specifiers | Authentication needed | Description                       |
+| -------------------| --------- | ----------------| ------------- | ------------- | --------------------- |-----------------------------------|
+| Live Data          | 0x0301    | MeteoLiveData_t |170            |Read           |No                     |Read live data struct from 2 probes|
+| Current node read  | 0x0303    | uint64/bytearray|8/170          |Write/Notify   |No                     |Sends all data from selected file  |
+| Current node delete| 0x0303    | uint64          |8              |Write          |No                     |Deletes selected file              |
+
+# Current node read
+  To read data from sdcard, server should subscribe to char and write needed file timestamp in ms(year, month, day). Then slave will send all data from selected file. 
+  Struct will look like this:
+  ```
+  MeteoLiveData[2]; // struct from 2 probes
+  ```
+  This struct will be send in one MTU packet.
+# How to get list of current files on sdcard
+ ```
+ typedef struct
+ {
+  uint64_t ms;
+  uint32_t node_count;
+ }node_date_t;
+ ```
+  Subscribe to Nodes date char, and then write 1 to it. Slave will send nodes_date_t struct for each file, which should be interpreted as "first 8 bytes - timestamp of file in ms, 4 bytes - node_count in file", at the end slave sends empty struct (all 12 bytes are zero), to indicate that there are no more files on sdcard;
+  
 ### Ready-to-use live data characteristics (UUID 0x0500)
 
 On char notification, sends data immediately, then updates it in 1 second interval
