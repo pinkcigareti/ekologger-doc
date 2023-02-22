@@ -4,33 +4,33 @@
 ## Стандартные 
 ```
   typedef enum
-	{
-			RPC_GET_DEVICE_IDS			=	0,
-			RPC_GET_DEVICE_ID			=	1,
-			RPC_SET_DEVICE_DATE_TIME = 6,
-			RPC_GET_DEVICE_DATE_TIME = 7,
-			RPC_FACTORY_RESET = 8,
-			RPC_POWER_OFF				=	9,
-			RPC_GET_POWER_STATUS = 11,
-			RPC_FIND_ME = 20,
-			RPC_GET_SOFTWARE_INFO		=	21,
-			RPC_GET_MODERN_FIRMWARE_ID = 22
+  {
+	RPC_GET_DEVICE_IDS = 0,
+	RPC_GET_DEVICE_ID =  1,
+	RPC_SET_DEVICE_DATE_TIME = 6,
+	RPC_GET_DEVICE_DATE_TIME = 7,
+	RPC_FACTORY_RESET = 8,
+	RPC_POWER_OFF =	9,
+	RPC_GET_POWER_STATUS = 11,
+	RPC_FIND_ME = 20,
+	RPC_GET_SOFTWARE_INFO =	21,
+	RPC_GET_MODERN_FIRMWARE_ID = 22
 	} StandartId_t;
 ```
 ## Специфичные для устройства
 ```
 
     typedef enum
-		{
-      RPC_SET_OPERATION_MODE		=	2056,
-			RPC_GET_OPERATION_MODE		=	2057,
-			RPC_GET_LIVE_DATA			=	2058,
-			RPC_SET_ALLOW_CHARGING		=	2067,
-			RPC_SET_ACTIVE_PROBE = 2068,
-			RPC_GET_ACTIVE_PROBE = 2069,
-			RPC_GET_FLAGS				=	3001,
-			RPC_GET_CACHED_NON_CALIBRATED_DATA = 3009
-		}CustomId_t;
+    {
+      	RPC_SET_OPERATION_MODE = 2056,
+	RPC_GET_OPERATION_MODE = 2057,
+	RPC_GET_LIVE_DATA = 2058,
+	RPC_SET_ALLOW_CHARGING = 2067,
+	RPC_SET_ACTIVE_PROBE = 2068,
+	RPC_GET_ACTIVE_PROBE = 2069,
+	RPC_GET_FLAGS =	3001,
+	RPC_GET_CACHED_NON_CALIBRATED_DATA = 3009
+     }CustomId_t;
 ```
 ## Особенности работы по EKONNECT, USB(UART) интерфейсу
 Перед первым подключением рекомендуется пинговать устройство минимум 2 раза, так как первый первый пакет может быть потерян
