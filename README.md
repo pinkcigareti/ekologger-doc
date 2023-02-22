@@ -78,9 +78,16 @@ enum EsRpcEkologgerId
 # Bluetooth Low Energy (BLE)
 ## Сервисы
 ### Device ID and state characteristics
-### Device data access and control characteristics
-### Ready-to-use live data 0500XXXX
+### Device data access and control characteristics (UUID 0x0200)
 
+| Characteristic name          | UUID      | Type            | Size in bytes | IO specifiers | Authentication needed | Description                       |
+| -----------------------------| --------- | ----------------| ------------- | ------------- | --------------------- |-----------------------------------|
+| Live Data                    | 0x0202    | MeteoLiveData_t |170            |Read           |No                     |Read live data struct from 2 probes|
+| Live Data save               | 0x0203    | uint8           | 1             |Write          |No                     |On write saves live data to sd card|
+
+### Ready-to-use live data characteristics (UUID 0x0500)
+
+On char notification, sends data immediately, then updates it in 1 second interval
 | Characteristic name          | UUID        | Type    | Size in bytes | IO specifiers | Authentication needed | Description                        |
 | -----------------------------| --------- | --------| ------------- | ------------- | --------------------- |--------------------------------------|
 | Temperature C, probe 1       | 0x0504    | float32 | 4             |Read/Notify    |No                     |Read measured temperature from probe 1|
