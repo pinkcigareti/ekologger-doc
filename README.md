@@ -81,9 +81,14 @@ enum EsRpcEkologgerId
 ### Device data access and control characteristics
 ### Ready-to-use live data 0500XXXX
 
-| Characteristic name          | ID        | Type    | Size in bytes | IO specifiers | Authentication needed | Description                        |
-| -----------------------------| --------- | --------| ------------- | ------------- | --------------------- |------------------------------------|
-| Temperature C, probe 1       | 05000400  | float32 | 4             |Read/Notify    |No                     |Send measured temprature from probe 1
-| Relative humidity %, probe 1 | 05000500  | float32 | 4             |Read/Notify    |No                     |
-| Pressure GPa, probe 1        | 05000600  | float32 | 4             |Read/Notify    |No                     |
-| Temperature C, probe 2       | 05000700  | float32 | 4             |Read/Notify    |No                     |
+| Characteristic name          | UUID        | Type    | Size in bytes | IO specifiers | Authentication needed | Description                        |
+| -----------------------------| --------- | --------| ------------- | ------------- | --------------------- |--------------------------------------|
+| Temperature C, probe 1       | 0x0504    | float32 | 4             |Read/Notify    |No                     |Read measured temperature from probe 1|
+| Relative humidity %, probe 1 | 0x0505    | float32 | 4             |Read/Notify    |No                     |Read measured humidity from probe 1   |
+| Pressure GPa, probe 1        | 0x0506    | float32 | 4             |Read/Notify    |No                     |Read measured pressure from probe 1   |
+| Temperature C, probe 2       | 0x0507    | float32 | 4             |Read/Notify    |No                     |Read measured temperature from probe 2|
+| Relative humidity %, probe 2 | 0x0508    | float32 | 4             |Read/Notify    |No                     |Read measured humidity from probe 2   |
+| Pressure GPa, probe 2        | 0x0509    | float32 | 4             |Read/Notify    |No                     |Read measured pressure from probe 2   |
+| Velocity m/s, probe 1        | 0x0510    | float32 | 4             |Read/Notify    |No                     |Read measured pressure from probe 2   |
+| Velocity m/s, probe 2        | 0x0511    | float32 | 4             |Read/Notify    |No                     |Read measured pressure from probe 2   |
+| Wbgt index C                 | 0x0512    | float32 | 4             |Read/Notify    |No                     |Read measured wbgt index              |
