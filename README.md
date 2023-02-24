@@ -99,6 +99,6 @@ On char notification, sends data immediately, then updates it in 1 second interv
 | Temperature C, probe 2       | 0x0507    | float32 | 4             |Read/Notify    |No                     |Read measured temperature from probe 2|
 | Relative humidity %, probe 2 | 0x0508    | float32 | 4             |Read/Notify    |No                     |Read measured humidity from probe 2   |
 | Pressure GPa, probe 2        | 0x0509    | float32 | 4             |Read/Notify    |No                     |Read measured pressure from probe 2   |
-| Velocity m/s, probe 1        | 0x0510    | float32 | 4             |Read/Notify    |No                     |Read measured pressure from probe 2   |
-| Velocity m/s, probe 2        | 0x0511    | float32 | 4             |Read/Notify    |No                     |Read measured pressure from probe 2   |
+| Velocity m/s, probe 1        | 0x0510    | float32 | 4             |Read/Notify    |No                     |Read measured velocity from probe 1   |
+| Velocity m/s, probe 2        | 0x0511    | float32 | 4             |Read/Notify    |No                     |Read measured velocity from probe 2   |
 | Wbgt index C                 | 0x0512    | float32 | 4             |Read/Notify    |No                     |Read measured wbgt index              |
