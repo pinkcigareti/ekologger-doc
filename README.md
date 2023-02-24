@@ -57,7 +57,7 @@
 
 | Characteristic name          | UUID      | Type            | Size in bytes | IO specifiers | Authentication needed | Description                       |
 | -----------------------------| --------- | ----------------| ------------- | ------------- | --------------------- |-----------------------------------|
-| Live Data                    | 0x0202    | MeteoLiveData_t |170            |Read           |No                     |Read live data struct from 2 probes|
+| Live Data                    | 0x0202    | bytearray       |170            |Read           |No                     |Read live data struct from 2 probes|
 | Live Data save               | 0x0203    | uint8           | 1             |Write          |No                     |On write saves live data to sd card|
 
 ### Device persistent data access service (UUID 0x0300)
