@@ -347,7 +347,7 @@ typedef union
         uint32_t heater_enabled_1 : 1;  // 1 - Force Heater / Adc to be on after device restart on probe 1 | default - 0
         uint32_t heater_enabled_2 : 1;  // 1 - Force Heater / Adc to be on after device restart on probe 2 | default - 0
     } bits;
-} Settings_t;
+} DeviceSettings_t;
 
 typedef struct
 {
