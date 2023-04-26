@@ -388,6 +388,12 @@ typedef struct s_FsInfo
 
 typedef struct
 {
+	int64_t milis; // ts of a file
+	uint32_t node_count; // node count in one file, each node contains MeteoLiveData_t[2] struct
+}node_date_info_t;
+
+typedef struct
+{
     uint32_t number;
     uint16_t year;
     bool invalid;
