@@ -154,7 +154,7 @@ typedef enum e_DeviceType
 
 typedef enum
 {
-    RPC_METEO_IDLE = 1, // all
+    RPC_METEO_IDLE = 1, // all sensors are off
     RPC_METEO_LIVE_LIMITED = 2, // all sensors are on except wind velocity sensor
     RPC_METEO_LIVE_UNLIMITED = 3 // all sensors are on
 } MeteoMode_t;
