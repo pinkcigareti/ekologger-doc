@@ -18,7 +18,6 @@ typedef uint8_t RPCBOOL;
 typedef int32_t INT32;
 typedef uint32_t UINT32;
 
-#define PACKETLEN_VARS 3
 
 //////////////////////////////////////// Rpc Definitions ///////////////////////////////////
 typedef enum
@@ -54,7 +53,9 @@ typedef enum
     BYTEARRAY_UINT32_UINT32 = 29,
     void_UINT32_BYTEARRAY = 30,
     BYTEARRAY_UINT8 = 31
-} Signature_t;
+}rpcSignature_t;
+
+// List of standart rpc supported ids
 typedef enum
 {
     RPC_GET_DEVICE_IDS = 0,
@@ -74,28 +75,33 @@ typedef enum
     RPC_FIND_ME = 20,
     RPC_GET_SOFTWARE_INFO = 21,
     RPC_GET_MODERN_FIRMWARE_ID = 22
-} StandartId_t;
+}rpcStandartId_t;
 
-typedef enum
-{
-    RPC_GET_FLAGS = 3001,
-    RPC_SET_RH_HEATER_STATE = 3011,
-
-} MeteoId;
+// Supported meteo ids
 typedef enum
 {
     RPC_SET_OPERATION_MODE = 2056,
     RPC_GET_OPERATION_MODE = 2057,
     RPC_GET_LIVE_DATA = 2058,
+    RPC_GET_FLAGS = 3001,
+    RPC_SET_RH_HEATER_STATE = 3011,
+    RPC_SET_ALLOW_CHARGING = 2067,  
+} rpcMeteoId;
+
+// Ekologger Ids
+typedef enum
+{
+   
     RPC_GET_SENSORS_PRESENCE = 2060,
-    RPC_SET_ALLOW_CHARGING = 2067,
     RPC_SET_ACTIVE_PROBE = 2068,
     RPC_GET_ACTIVE_PROBE = 2069,
     RPC_GET_PROBE_SERIAL = 2088,
     RPC_SET_DEVICE_SETTINGS = 2090,
     RPC_GET_DEVICE_SETTINGS = 2091,
-    RPC_SAVE_LIVEDATA = 2092
-} eId;
+    RPC_SAVE_LIVEDATA = 2092,
+    RPC_GET_DISPLAY_CONTRAST = 2093,
+    RPC_SET_DISPLAY_CONTRAST = 2094
+}rpcEkologgerId;
 typedef enum
 {
     RPC_SUCCESS = 0,
@@ -141,25 +147,16 @@ typedef struct s_ModernDeviceId
 
 #pragma pack(pop)
 
-// ANY ODRED, IN ALL ANOTHER CASES ORDER DOES MATTER
 typedef enum e_DeviceType
 {
-    DEVICE_ECO_BOIL = 0x0000,
-    DEVICE_PHOTO_HEAD = 0x0001,
-    DEVICE_ECO_BOI2_LUX = 0x0002,
-    DEVICE_ECO_BOI_ANE = 0x0003,
-    DEVICE_METEO_HEAD = 0x0004,
-    DEVICE_EMI_HEAD = 0x0005,
     DEVICE_EKOLOGGER = 11,
-    DEVICE_TENZOR_PHOTOHEAD = 40001,
-    DEVICE_TENZOR_BOI2_LUX = 40002
 } DeviceType_t;
 
 typedef enum
 {
-    RPC_METEO_IDLE = 1,
-    RPC_METEO_LIVE_LIMITED = 2,
-    RPC_METEO_LIVE_UNLIMITED = 3
+    RPC_METEO_IDLE = 1, // all
+    RPC_METEO_LIVE_LIMITED = 2, // all sensors are on except wind velocity sensor
+    RPC_METEO_LIVE_UNLIMITED = 3 // all sensors are on
 } MeteoMode_t;
 
 typedef union u_SensorPresence
@@ -344,23 +341,23 @@ typedef union
         uint32_t logging_enabled : 1;   // logger 1 - on | 0 - off | default - 0
         uint32_t logging_interval : 28; // logger interval in ms from 1000 to 86400000 | default - 5000
         uint32_t display_sleep : 1;     // 1 - Sets display off timeout to 10 seconds | 0 - display is always on | default - 0
-        uint32_t heater_enabled_1 : 1;  // 1 - Force Heater / Adc to be on after device restart on probe 1 | default - 0
-        uint32_t heater_enabled_2 : 1;  // 1 - Force Heater / Adc to be on after device restart on probe 2 | default - 0
+        uint32_t heater_enabled_1 : 1;  // 1 - enable wind velocity sensor on probe 1 | default - 0
+        uint32_t heater_enabled_2 : 1;  // 1 - enable wind velocity sensor on probe 2 | default - 0
     } bits;
 } DeviceSettings_t;
 
 typedef struct
 {
-    uint16_t result;
-    uint32_t file_size;
-    int64_t ts;
-    uint8_t f_attrs;
-    uint8_t fname[30];
+    uint16_t result; // result code
+    uint32_t file_size; // file size in bytes
+    int64_t ts;  
+    uint8_t f_attrs; // fatfs file attributes
+    uint8_t fname[30]; // file / folder name as null terminated ascii string
 } FsItem_t;
 typedef struct
 {
-    uint16_t result;
-    uint32_t chunks;
+    uint16_t result; // result code
+    uint32_t chunks; // chunks count in file
 } FsItemReadRequest_t;
 
 typedef enum e_FsMemoryUnits
@@ -375,8 +372,8 @@ typedef struct s_FsMemSpaceInfo
 {
     uint16_t count;
     uint16_t frac;
-    uint8_t unit;
-    uint8_t dummy;
+    uint8_t unit; 
+    uint8_t dummy; // reserved
 } FsMemSpaceInfo_t;
 
 typedef struct s_FsInfo
@@ -396,7 +393,7 @@ typedef struct
 {
     uint32_t number;
     uint16_t year;
-    bool invalid;
+    bool invalid; 
 } ProbeSerial_t;
 #pragma pack(pop)
 
