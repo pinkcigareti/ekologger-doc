@@ -234,8 +234,8 @@ typedef struct
             uint32_t dwordval;
             struct
             {
-                uint32_t ta : 1;             // 1 - no temp sensor
-                uint32_t rh : 1;             // 1 - no humidity sensor
+                uint32_t ta : 1;             // 1 - temp error
+                uint32_t rh : 1;             // 1 - humidity error
                 uint32_t td : 1;             // 1 - error when calculating td
                 uint32_t tw : 1;             // 1 - error when calculating tw
                 uint32_t u : 1;              // 1 - no wind velocity sensor
@@ -244,7 +244,7 @@ typedef struct
                 uint32_t wbgts : 1;          // 1 - error when calculating wbgts index
                 uint32_t tr : 1;             // 1 - error when calculating tr
                 uint32_t w : 1;              // 1 - error when calculating w
-                uint32_t p : 1;              // 1 - no pressure sensor
+                uint32_t p : 1;              // 1 - pressure error
                 uint32_t to : 1;             // 1 - error when calculating to
                 uint32_t reserved_area : 15; // reserved for future use
                 uint32_t rh_heater : 1;      // 1 - humidity sensor heater is on, all indications may be distorted
