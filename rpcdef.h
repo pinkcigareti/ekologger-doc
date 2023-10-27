@@ -152,12 +152,15 @@ typedef enum e_DeviceType
     DEVICE_EKOLOGGER = 11,
 } DeviceType_t;
 
+
+
 typedef enum
 {
     RPC_METEO_IDLE = 1, // all sensors are off
     RPC_METEO_LIVE_LIMITED = 2, // all sensors are on except wind velocity sensor
     RPC_METEO_LIVE_UNLIMITED = 3 // all sensors are on
-} MeteoMode_t;
+} MeteoMode_t; // Each probe has its own meteo mode
+
 
 typedef union u_SensorPresence
 {
@@ -201,17 +204,17 @@ typedef union
 
 typedef union u_derivatives
 {
+    // bits set to -1 - param is decreasing, 1 param is increasing, 0 - param has not changed, but has not reached stable state yet, 2 - param is stable
     uint32_t dword;
     struct
     {
-        int32_t ta : 2;   // 11 - Air temperature is decreasing , 01 - Air temperature is increasing , 00 - Air temperature is stable, 10 - reserved
-        int32_t rh : 2;   // 11 - Relative humidity is decreasing , 01 - Relative humidity is increasing , 00 - Relative humidity is stable, 10 - reserved
-        int32_t td : 2;   // 11 - Dew point is decreasing , 01 - Dew point is increasing , 00 - Dew point is stable, 10 - reserved
-        int32_t tw : 2;   // 11 - wet bulb temperature is decreasing , 01 - wet bulb temperature is increasing , 00 - wet bulb temperature is stable, 10 - reserved
-        int32_t u : 2;    // reserved, not used
-        int32_t tg : 2;   // 11 - Temperature inside black sphere is decreasing , 01 - Temperature inside black sphere is increasing , 00 - Temperature inside black sphere is stable, 10 - reserved
-        int32_t wbgt : 2; // 11 - Wet-Bulb Globe Temperature is decreasing , 01 - Wet-Bulb Globe Temperature is increasing ,
-        // 00 - Wet-Bulb Globe Temperature is stable, 10 - reserved
+        int32_t ta : 2;   //  Air temperature
+        int32_t rh : 2;   // Relative humidity
+        int32_t td : 2;   // Dew point
+        int32_t tw : 2;   // wet bulb temperature
+        int32_t u : 2;    // wind velocity
+        int32_t tg : 2;   // Temperature inside black sphere 
+        int32_t wbgt : 2; // 11 - Wet-Bulb Globe Temperature
         int32_t wbgts : 2; // 11 - is decreasing , 01 - is increasing , 00 - is stable, 10 - reserved
         int32_t tr : 2;    // 11 - is decreasing , 01 - is increasing , 00 - is stable, 10 - reserved
         int32_t w : 2;     // 11 - is decreasing , 01 - is increasing , 00 - is stable, 10 - reserved
@@ -339,7 +342,8 @@ typedef union
     struct
     {
         uint32_t logging_enabled : 1;   // logger 1 - on | 0 - off | default - 0
-        uint32_t logging_interval : 28; // logger interval in ms from 1000 to 86400000 | default - 5000
+        uint32_t logging_interval : 17; // logger interval in seconds from 1 to 86400 | default - 5	
+	uint32_t reserved : 11; // reserved for future use
         uint32_t display_sleep : 1;     // 1 - Sets display off timeout to 10 seconds | 0 - display is always on | default - 0
         uint32_t heater_enabled_1 : 1;  // 1 - enable wind velocity sensor on probe 1 | default - 0
         uint32_t heater_enabled_2 : 1;  // 1 - enable wind velocity sensor on probe 2 | default - 0
@@ -385,15 +389,9 @@ typedef struct s_FsInfo
 
 typedef struct
 {
-	int64_t milis; // ts of a file
-	uint32_t node_count; // node count in one file, each node contains MeteoLiveData_t[2] struct
-}node_date_info_t;
-
-typedef struct
-{
     uint32_t number;
     uint16_t year;
-    bool invalid; 
+    bool invalid;
 } ProbeSerial_t;
 #pragma pack(pop)
 
