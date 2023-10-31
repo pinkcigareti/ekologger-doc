@@ -349,14 +349,14 @@ typedef union
         uint32_t heater_enabled_2 : 1;  // 1 - enable wind velocity sensor on probe 2 | default - 0
     } bits;
 } DeviceSettings_t;
-
+#define RPC_FNAME_LEN_MAX 12
 typedef struct
 {
     uint16_t result; // result code
     uint32_t file_size; // file size in bytes
     int64_t ts;  
     uint8_t f_attrs; // fatfs file attributes
-    uint8_t fname[30]; // file / folder name as null terminated ascii string
+    uint8_t fname[RPC_FNAME_LEN_MAX + 1]; // file / folder name as null terminated ascii string
 } FsItem_t;
 typedef struct
 {
